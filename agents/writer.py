@@ -5,7 +5,8 @@ import google.generativeai as genai  # ✅
 from dotenv import load_dotenv
 
 load_dotenv()
-client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
+model = genai.GenerativeModel("gemini-pro")
 
 
 def write_newsletter(topic: str, grouped_stories: dict) -> dict:
