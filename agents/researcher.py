@@ -7,7 +7,7 @@ Action : Calls Tavily Search API with multiple query variants
 Output : List of story dicts [{title, url, snippet, published_date}]
 """
 
-import os
+import google.generativeai as genai  # ✅ correct
 from dotenv import load_dotenv
 
 load_dotenv()
