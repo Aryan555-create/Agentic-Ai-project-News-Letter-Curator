@@ -39,7 +39,7 @@ Format:
   "Theme Name Three": [4, 6, 7]
 }}"""
         response = client.models.generate_content(
-            model="gemini-2.0-flash",
+            model="gemini-2.5-flash",
             contents=prompt
         )
         raw = response.text.strip().replace("```json", "").replace("```", "")
