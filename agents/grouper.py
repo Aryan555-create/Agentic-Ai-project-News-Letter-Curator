@@ -10,7 +10,7 @@ Output : Dict mapping theme names to lists of story dicts
 import json
 import os
 
-import google.generativeai as genai
+from google import genai  # ✅ correct for google-genai package
 from dotenv import load_dotenv
 
 load_dotenv()
