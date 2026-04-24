@@ -1,7 +1,7 @@
 import os
 import time
 
-import google.generativeai as genai  # ✅
+from google import genai  # ✅ correct for google-genai package
 from dotenv import load_dotenv
 
 load_dotenv()
