@@ -1,13 +1,10 @@
 import os
 import time
-
-from google import genai  # ✅ correct for google-genai package
+from google import genai
 from dotenv import load_dotenv
 
 load_dotenv()
-genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
-model = genai.GenerativeModel("gemini-pro")
-
+client = genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
 
 def write_newsletter(topic: str, grouped_stories: dict) -> dict:
     if not grouped_stories:
