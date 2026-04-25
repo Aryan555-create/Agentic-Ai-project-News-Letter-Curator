@@ -22,30 +22,49 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# ── Google Fonts (must be before CSS block) ───────────────────────────────────
-st.markdown(
-    '<link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=IM+Fell+English:ital@0;1&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">',
-    unsafe_allow_html=True,
-)
-
 # ── Custom CSS ────────────────────────────────────────────────────────────────
 st.markdown(
     """
 <style>
+@import url('https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=IM+Fell+English:ital@0;1&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap');
+
+:root {
+    --ink: #1c1410;
+    --paper: #faf3e0;
+    --paper-soft: #fffdf5;
+    --paper-accent: #f0e8d0;
+    --gold: #c4a96b;
+    --rust: #a0420e;
+    --sidebar-bg: #1c1410;
+    --sidebar-ink: #f0e8d0;
+    --sidebar-muted: #d6c3a1;
+    --sidebar-soft: #a09080;
+    --success-bg: #e8f5e1;
+    --success-border: #6a9a4a;
+    --success-ink: #3a6a25;
+    --primary-color: #a0420e;
+    --background-color: #faf3e0;
+    --secondary-background-color: #f0e8d0;
+    --text-color: #1c1410;
+}
+
 /* ══════════════════════════════════════════════
    FOUNDATION — force parchment background + dark text EVERYWHERE in main
    ══════════════════════════════════════════════ */
-html, body { background-color: #faf3e0 !important; color: #1c1410 !important; }
+html, body { background-color: var(--paper) !important; color: var(--ink) !important; }
 
+/* Every generic Streamlit wrapper in the main area */
+.stApp,
 .main, .main .block-container,
 [data-testid="stAppViewContainer"],
 [data-testid="stAppViewBlockContainer"],
 [data-testid="stMain"],
 [data-testid="stMainBlockContainer"] {
-    background-color: #faf3e0 !important;
-    color: #1c1410 !important;
+    background-color: var(--paper) !important;
+    color: var(--ink) !important;
 }
 
+/* Horizontal rule line texture */
 .main .block-container {
     background-image: repeating-linear-gradient(
         0deg, transparent, transparent 27px,
@@ -54,6 +73,10 @@ html, body { background-color: #faf3e0 !important; color: #1c1410 !important; }
     padding-top: 2rem !important;
 }
 
+[data-testid="stDecoration"] { display: none !important; }
+[data-testid="stToolbar"] { right: 1rem !important; }
+
+/* ── GLOBAL TEXT: every element in main gets dark ink ── */
 .main p, .main span, .main div, .main li, .main label,
 .main strong, .main em, .main a, .main h1, .main h2, .main h3,
 [data-testid="stMarkdownContainer"] *,
@@ -61,29 +84,40 @@ html, body { background-color: #faf3e0 !important; color: #1c1410 !important; }
 [data-testid="stWrite"] *,
 [data-testid="element-container"] p,
 [data-testid="element-container"] span {
-    color: #1c1410 !important;
+    color: var(--ink) !important;
 }
 
+/* STATUS BOXES: cream background, dark text */
 [data-testid="stStatus"],
 [data-testid="stStatus"] > div,
+[data-testid="stStatus"] > div > div,
 [data-testid="stStatusBody"],
 [data-testid="stVerticalBlockBorderWrapper"],
 [data-testid="stVerticalBlockBorderWrapper"] > div {
-    background-color: #fffdf5 !important;
-    color: #1c1410 !important;
+    background-color: var(--paper-soft) !important;
+    color: var(--ink) !important;
+    border-color: var(--gold) !important;
 }
-[data-testid="stStatus"] * { color: #1c1410 !important; }
-[data-testid="stVerticalBlockBorderWrapper"] * { color: #1c1410 !important; }
-[data-testid="stStatus"] > div:first-child { background-color: #f0e8d0 !important; }
-[data-testid="stStatus"] > div:first-child span { font-family: sans-serif !important; }
+[data-testid="stStatus"] * { color: var(--ink) !important; }
+[data-testid="stVerticalBlockBorderWrapper"] * { color: var(--ink) !important; }
+
+/* Status header row keep its own styled bg */
+[data-testid="stStatus"] > div:first-child { background-color: var(--paper-accent) !important; }
+
+/* FIX garbage beck/arror text: the status widget icon span uses a material icon ligature
+   that renders as garbage text when our custom fonts are applied. Reset font to system. */
+[data-testid="stStatus"] > div:first-child span,
+[data-testid="stStatus"] svg {
+    font-family: sans-serif !important;
+}
 [data-testid="stStatus"] > div:first-child button { font-family: sans-serif !important; }
 [data-testid="stStatus"] > div:first-child > div:first-child > span:first-child { display: none !important; }
 
-/* ── INVESTIGATE BUTTON ── */
+/* ── INVESTIGATE BUTTON — explicit visible styling ── */
 .stButton > button {
-    background-color: #1c1410 !important;
-    color: #f0e8d0 !important;
-    border: 2px solid #c4a96b !important;
+    background-color: var(--ink) !important;
+    color: var(--sidebar-ink) !important;
+    border: 2px solid var(--gold) !important;
     border-radius: 2px !important;
     padding: 0.55rem 1.5rem !important;
     font-family: 'Courier Prime', monospace !important;
@@ -92,41 +126,44 @@ html, body { background-color: #faf3e0 !important; color: #1c1410 !important; }
     letter-spacing: 0.14em !important;
     text-transform: uppercase !important;
     transition: all 0.2s ease !important;
-    box-shadow: 3px 3px 0 #a0420e !important;
+    box-shadow: 3px 3px 0 var(--rust) !important;
 }
 .stButton > button p,
 .stButton > button span,
-.stButton > button div { color: #f0e8d0 !important; }
+.stButton > button div {
+    color: var(--sidebar-ink) !important;
+}
 .stButton > button:hover {
-    background-color: #a0420e !important;
-    color: #f0e8d0 !important;
+    background-color: var(--rust) !important;
+    color: var(--sidebar-ink) !important;
     transform: translate(-1px,-1px) !important;
-    box-shadow: 4px 4px 0 #1c1410 !important;
+    box-shadow: 4px 4px 0 var(--ink) !important;
 }
 .stButton > button:hover p,
 .stButton > button:hover span,
-.stButton > button:hover div { color: #f0e8d0 !important; }
+.stButton > button:hover div { color: var(--sidebar-ink) !important; }
+/* Primary button (Investigate) same treatment */
 .stButton > button[kind="primary"],
 [data-testid="baseButton-primary"] {
-    background-color: #1c1410 !important;
-    color: #f0e8d0 !important;
+    background-color: var(--ink) !important;
+    color: var(--sidebar-ink) !important;
 }
 [data-testid="baseButton-primary"] p,
 [data-testid="baseButton-primary"] span,
-[data-testid="baseButton-primary"] div { color: #f0e8d0 !important; }
+[data-testid="baseButton-primary"] div { color: var(--sidebar-ink) !important; }
 
 /* ── TEXT INPUT ── */
 .stTextInput input {
-    background: #fffdf5 !important;
-    border: 1px solid #c4a96b !important;
+    background: var(--paper-soft) !important;
+    border: 1px solid var(--gold) !important;
     border-radius: 1px !important;
-    color: #1c1410 !important;
+    color: var(--ink) !important;
     font-family: 'Courier Prime', monospace !important;
     font-size: 1rem !important;
     padding: 0.6rem 1rem !important;
 }
 .stTextInput input::placeholder { color: #7a6e62 !important; font-style: italic; }
-.stTextInput input:focus { border-color: #a0420e !important; outline: none !important; }
+.stTextInput input:focus { border-color: var(--rust) !important; outline: none !important; box-shadow: none !important; }
 
 /* ── HEADINGS ── */
 h1 { font-family:'UnifrakturMaguntia',cursive !important; font-size:3.2rem !important; color:#7a2200 !important; line-height:1.1 !important; text-shadow:3px 3px 0 rgba(160,66,14,0.28), 1px 1px 0 rgba(196,154,14,0.35); }
@@ -134,32 +171,44 @@ h2 { font-family:'IM Fell English',serif !important; font-style:italic !importan
 h3 { font-family:'IM Fell English',serif !important; color:#3a1a00 !important; }
 
 /* ── PROGRESS BAR ── */
-.stProgress > div > div { background: #f0e8d0 !important; border:1px solid #c4a96b !important; border-radius:1px !important; }
-.stProgress > div > div > div { background: linear-gradient(90deg,#a0420e,#c49a0e) !important; border-radius:1px !important; }
+.stProgress > div,
+.stProgress > div > div,
+.stProgress [data-testid="stProgressBar"] {
+    background: var(--paper-accent) !important;
+    border: 1px solid var(--gold) !important;
+    border-radius: 1px !important;
+}
+.stProgress > div > div > div,
+.stProgress [data-testid="stProgressBar"] > div,
+.stProgress [role="progressbar"] {
+    background: linear-gradient(90deg, var(--rust), #c49a0e) !important;
+    border-radius: 1px !important;
+}
 
 /* ── ALERT ── */
-.stAlert { background: #f0e8d0 !important; border:1px solid #c4a96b !important; border-radius:2px !important; color:#1c1410 !important; }
+.stAlert { background: var(--paper-accent) !important; border:1px solid var(--gold) !important; border-radius:2px !important; color:var(--ink) !important; }
 
 /* ── EXPANDER ── */
-[data-testid="stExpander"] { background:#fffdf5 !important; border:1px solid #c4a96b !important; border-radius:2px !important; }
+[data-testid="stExpander"] { background:var(--paper-soft) !important; border:1px solid var(--gold) !important; border-radius:2px !important; }
 [data-testid="stExpander"] summary { font-family:'IM Fell English',serif !important; color:#a0420e !important; font-style:italic !important; }
 [data-testid="stExpander"] summary span { font-family:'IM Fell English',serif !important; color:#a0420e !important; font-style:italic !important; }
-[data-testid="stExpander"] * { color: #1c1410 !important; }
+[data-testid="stExpander"] * { color: var(--ink) !important; }
+/* FIX arro/arrow garbage in expander: icon span uses material icon ligature, reset to system font and hide */
 [data-testid="stExpander"] summary svg,
 [data-testid="stExpander"] summary > div > span:first-child,
 [data-testid="stExpander"] summary > span:first-child { font-family: sans-serif !important; }
 [data-testid="stExpander"] details > summary > div > span:not(:last-child):not([class*="label"]) { font-family: sans-serif !important; font-size: 0 !important; }
 
 /* ── METRICS ── */
-[data-testid="stMetric"] { background:#f0e8d0 !important; border:1px solid #c4a96b !important; border-radius:2px !important; padding:0.5rem !important; }
+[data-testid="stMetric"] { background:var(--paper-accent) !important; border:1px solid var(--gold) !important; border-radius:2px !important; padding:0.5rem !important; }
 [data-testid="stMetricValue"] { color:#a0420e !important; font-family:'Libre Baskerville',serif !important; font-weight:700 !important; }
 [data-testid="stMetricLabel"] { color:#5a4e42 !important; font-family:'Courier Prime',monospace !important; font-size:0.75rem !important; text-transform:uppercase !important; }
 
 /* ── DOWNLOAD BUTTONS ── */
-[data-testid="stDownloadButton"] > button { background:#f0e8d0 !important; color:#1c1410 !important; border:1px solid #c4a96b !important; border-radius:2px !important; font-family:'Courier Prime',monospace !important; }
-[data-testid="stDownloadButton"] > button:hover { background:#1c1410 !important; color:#f0e8d0 !important; }
+[data-testid="stDownloadButton"] > button { background:var(--paper-accent) !important; color:var(--ink) !important; border:1px solid var(--gold) !important; border-radius:2px !important; font-family:'Courier Prime',monospace !important; }
+[data-testid="stDownloadButton"] > button:hover { background:var(--ink) !important; color:var(--sidebar-ink) !important; }
 
-/* ── HIDE sidebar collapse button ── */
+/* ── HIDE sidebar collapse button / back-arrow / chevron garbage ── */
 [data-testid="collapsedControl"] { display: none !important; }
 [data-testid="stSidebarCollapseButton"] { display: none !important; visibility: hidden !important; }
 [data-testid="stSidebarCollapseButton"] > div,
@@ -170,29 +219,45 @@ button[aria-label="Open sidebar"],
 button[aria-label="Collapse sidebar"] { display: none !important; }
 .st-emotion-cache-1egp75f, .st-emotion-cache-czk5ss { display: none !important; }
 
-/* ── SIDEBAR — robust dark background ── */
-section[data-testid="stSidebar"],
-section[data-testid="stSidebar"] > div,
-section[data-testid="stSidebar"] > div > div,
-section[data-testid="stSidebar"] > div > div > div {
-    background-color: #1c1410 !important;
+/* ── SIDEBAR (intentionally dark — newspaper back page) ── */
+section[data-testid="stSidebar"] {
+    background: var(--sidebar-bg) !important;
     background-image:
         radial-gradient(circle at 20% 80%, rgba(139,58,26,0.18) 0%, transparent 60%),
         radial-gradient(circle at 80% 20%, rgba(184,134,11,0.12) 0%, transparent 55%) !important;
+    border-right: 3px double var(--gold) !important;
 }
-section[data-testid="stSidebar"] {
-    border-right: 3px double #c4a96b !important;
+section[data-testid="stSidebar"] > div {
+    background: transparent !important;
 }
+/* Sidebar text: light on dark intentionally */
 section[data-testid="stSidebar"] p,
 section[data-testid="stSidebar"] span,
 section[data-testid="stSidebar"] div,
-section[data-testid="stSidebar"] label { color: #f0e8d0 !important; font-family:'Courier Prime',monospace !important; }
-section[data-testid="stSidebar"] strong { color: #c4a96b !important; }
-section[data-testid="stSidebar"] hr { border-color: #c4a96b !important; opacity:0.35 !important; }
-section[data-testid="stSidebar"] .stSlider > div > div > div { background: #a0420e !important; }
+section[data-testid="stSidebar"] label { color: var(--sidebar-ink) !important; font-family:'Courier Prime',monospace !important; opacity: 1 !important; }
+section[data-testid="stSidebar"] strong { color: var(--gold) !important; }
+section[data-testid="stSidebar"] small { color: var(--sidebar-soft) !important; }
+section[data-testid="stSidebar"] hr { border-color: var(--gold) !important; opacity:0.35 !important; }
+section[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] * { color: inherit !important; }
+section[data-testid="stSidebar"] [data-testid="stSlider"] label,
+section[data-testid="stSidebar"] [data-testid="stSlider"] span,
+section[data-testid="stSidebar"] [data-testid="stSlider"] p {
+    color: var(--sidebar-ink) !important;
+    opacity: 1 !important;
+}
+section[data-testid="stSidebar"] [data-baseweb="slider"] > div > div {
+    background: var(--rust) !important;
+}
+section[data-testid="stSidebar"] [data-baseweb="slider"] [role="slider"] {
+    background: var(--gold) !important;
+    box-shadow: 0 0 0 2px var(--rust) !important;
+}
+section[data-testid="stSidebar"] [data-testid="stTickBar"] * {
+    color: var(--sidebar-muted) !important;
+}
 
 /* ── MISC ── */
-hr { border-color: #c4a96b !important; opacity:0.5 !important; }
+hr { border-color: var(--gold) !important; opacity:0.5 !important; }
 .stCaption, .stCaption p, small { font-family:'Courier Prime',monospace !important; color:#5a4e42 !important; font-size:0.78rem !important; }
 
 /* ══ CUSTOM COMPONENTS ══ */
@@ -234,7 +299,7 @@ with st.sidebar:
 <div style="text-align:center;padding:1rem 0 0.5rem;">
     <div style="font-size:2.8rem;margin-bottom:0.3rem;">🔍</div>
     <div style="font-family:'IM Fell English',serif;font-size:1.25rem;color:#c4a96b;font-style:italic;">The Intelligence Desk</div>
-    <div style="font-family:'Courier Prime',monospace;font-size:0.66rem;letter-spacing:0.14em;text-transform:uppercase;color:#6b5f52;margin-top:0.3rem;">◆ Configuration Bureau ◆</div>
+    <div style="font-family:'Courier Prime',monospace;font-size:0.66rem;letter-spacing:0.14em;text-transform:uppercase;color:#d6c3a1;margin-top:0.3rem;">◆ Configuration Bureau ◆</div>
 </div>
 <hr style="border-color:#c4a96b;opacity:0.3;margin:0.5rem 0 1rem;">
 """, unsafe_allow_html=True)
@@ -251,13 +316,13 @@ with st.sidebar:
 <hr style="border-color:#c4a96b;opacity:0.25;margin:1rem 0;">
 <div style="font-family:'IM Fell English',serif;font-size:1.05rem;color:#c4a96b;font-style:italic;margin-bottom:0.6rem;">◆ Equipment Used</div>
 <div style="font-family:'Courier Prime',monospace;font-size:0.78rem;line-height:2.0;color:#e0d0b8;">
-▸ LLM &nbsp;&nbsp;&nbsp;&nbsp;· Gemini 2.0 Flash<br>
+▸ LLM &nbsp;&nbsp;&nbsp;&nbsp;· Gemini 1.5 Flash<br>
 ▸ Search &nbsp;· Tavily API<br>
 ▸ UI &nbsp;&nbsp;&nbsp;&nbsp;· Streamlit<br>
-▸ Deploy &nbsp;· Streamlit Cloud
+▸ Deploy &nbsp;· Railway
 </div>
 <hr style="border-color:#c4a96b;opacity:0.25;margin:1rem 0;">
-<div style="font-family:'Courier Prime',monospace;font-size:0.68rem;color:#a09080;text-align:center;line-height:1.8;">
+<div style="font-family:'Courier Prime',monospace;font-size:0.68rem;color:#d6c3a1;text-align:center;line-height:1.8;">
 Semester IV · B.E. ECE<br>Agentic AI Project
 </div>
 """, unsafe_allow_html=True)
@@ -273,7 +338,7 @@ st.markdown(f"""
     <div class="masthead-title">The Curator</div>
     <div style="border-top:2px solid #1c1410;opacity:0.5;margin:0.4rem 0;"></div>
     <div class="masthead-subtitle">Intelligence Dispatches &nbsp;·&nbsp; Multi-Agent Research &amp; Composition Bureau</div>
-    <div class="masthead-price">🔍 &nbsp; Powered by Tavily Search &amp; Gemini 2.0 Flash &nbsp;·&nbsp; Price: One Good Query</div>
+    <div class="masthead-price">🔍 &nbsp; Powered by Tavily Search &amp; Gemini 1.5 Flash &nbsp;·&nbsp; Price: One Good Query</div>
 </div>
 """, unsafe_allow_html=True)
 
@@ -306,7 +371,7 @@ if generate and topic.strip():
 
     progress_bar = st.progress(0, text="Opening case file…")
 
-    with st.status("🔍 Agent I — Story Researcher · Querying Tavily…", expanded=True) as s1:
+    with st.status("🔍 Agent I — Story Researcher · Querying Tavily…", expanded=False) as s1:
         stories = research_stories(topic, num_stories)
         st.write(f"✅ Recovered **{len(stories)} dispatches** across 3 intelligence queries")
         if stories:
@@ -315,7 +380,7 @@ if generate and topic.strip():
 
     progress_bar.progress(30, text="Grouping intelligence…")
 
-    with st.status("🗂 Agent II — Grouping Agent · Clustering into dossiers…", expanded=True) as s2:
+    with st.status("🗂 Agent II — Grouping Agent · Clustering into dossiers…", expanded=False) as s2:
         grouped = group_stories(stories)
         theme_names = list(grouped.keys())
         st.write(f"✅ Filed into **{len(theme_names)} dossiers**: {' · '.join(theme_names)}")
@@ -323,7 +388,7 @@ if generate and topic.strip():
 
     progress_bar.progress(55, text="Composing edition…")
 
-    with st.status("✍ Agent III — Newsletter Writer · Composing the edition…", expanded=True) as s3:
+    with st.status("✍ Agent III — Newsletter Writer · Composing the edition…", expanded=False) as s3:
         newsletter = write_newsletter(topic, grouped)
         word_count = len(newsletter["body"].split())
         st.write(f"✅ Edition drafted — **{word_count} words** committed to press")
@@ -332,7 +397,7 @@ if generate and topic.strip():
 
     progress_bar.progress(80, text="Quality examination…")
 
-    with st.status("⚖ LLM Judge · Examining quality under the lens…", expanded=True) as sj:
+    with st.status("⚖ LLM Judge · Examining quality under the lens…", expanded=False) as sj:
         evaluation = evaluate_newsletter(newsletter["body"], topic)
         score = evaluation.get("overall_score", "N/A")
         st.write(f"✅ Examination complete — Verdict: **{score}/10** {evaluation.get('verdict_emoji', '')}")
@@ -365,6 +430,7 @@ if generate and topic.strip():
 </div>
 """, unsafe_allow_html=True)
 
+        newsletter_body_html = newsletter["body"].replace('\n', '<br>')
         st.markdown(f'<div class="newsletter-body-wrap">{newsletter["body"]}</div>', unsafe_allow_html=True)
 
         st.markdown("<div style='height:0.7rem'></div>", unsafe_allow_html=True)
@@ -472,6 +538,6 @@ st.markdown("""
 <div style="text-align:center;font-family:'Courier Prime',monospace;font-size:0.7rem;
      color:#8b7355;letter-spacing:0.08em;padding-bottom:1rem;">
     ✦ &nbsp; The Curator Intelligence Bureau &nbsp;·&nbsp; Semester IV · B.E. ECE &nbsp;·&nbsp;
-    Streamlit &nbsp;·&nbsp; Tavily &nbsp;·&nbsp; Gemini 2.0 Flash &nbsp; ✦
+    Streamlit &nbsp;·&nbsp; Tavily &nbsp;·&nbsp; Gemini 1.5 Flash &nbsp; ✦
 </div>
 """, unsafe_allow_html=True)
