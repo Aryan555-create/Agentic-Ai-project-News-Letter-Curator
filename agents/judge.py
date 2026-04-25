@@ -1,11 +1,14 @@
+import json
 import os
 import time
-import json
+
 from google import genai
 from dotenv import load_dotenv
 
 load_dotenv()
 client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+
+
 def evaluate_newsletter(newsletter_body: str, topic: str = "") -> dict:
     if not newsletter_body or len(newsletter_body) < 50:
         return {
