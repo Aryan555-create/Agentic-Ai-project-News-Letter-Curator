@@ -1,13 +1,7 @@
 """
 Agent 1: Story Researcher
-=========================
-Input  : topic (str), num_results (int)
-Action : Calls Tavily Search API with multiple query variants
-         to fetch the week's most relevant stories
-Output : List of story dicts [{title, url, snippet, published_date}]
 """
-
-from google import genai  # ✅ correct for google-genai package
+import os
 from dotenv import load_dotenv
 
 load_dotenv()
