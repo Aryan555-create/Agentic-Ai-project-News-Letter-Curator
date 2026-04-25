@@ -22,18 +22,21 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
+# ── Google Fonts (must be before CSS block) ───────────────────────────────────
+st.markdown(
+    '<link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=IM+Fell+English:ital@0;1&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">',
+    unsafe_allow_html=True,
+)
+
 # ── Custom CSS ────────────────────────────────────────────────────────────────
 st.markdown(
     """
 <style>
-@import url('https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=IM+Fell+English:ital@0;1&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap');
-
 /* ══════════════════════════════════════════════
    FOUNDATION — force parchment background + dark text EVERYWHERE in main
    ══════════════════════════════════════════════ */
 html, body { background-color: #faf3e0 !important; color: #1c1410 !important; }
 
-/* Every generic Streamlit wrapper in the main area */
 .main, .main .block-container,
 [data-testid="stAppViewContainer"],
 [data-testid="stAppViewBlockContainer"],
@@ -43,7 +46,6 @@ html, body { background-color: #faf3e0 !important; color: #1c1410 !important; }
     color: #1c1410 !important;
 }
 
-/* Horizontal rule line texture */
 .main .block-container {
     background-image: repeating-linear-gradient(
         0deg, transparent, transparent 27px,
@@ -52,7 +54,6 @@ html, body { background-color: #faf3e0 !important; color: #1c1410 !important; }
     padding-top: 2rem !important;
 }
 
-/* ── GLOBAL TEXT: every element in main gets dark ink ── */
 .main p, .main span, .main div, .main li, .main label,
 .main strong, .main em, .main a, .main h1, .main h2, .main h3,
 [data-testid="stMarkdownContainer"] *,
@@ -63,7 +64,6 @@ html, body { background-color: #faf3e0 !important; color: #1c1410 !important; }
     color: #1c1410 !important;
 }
 
-/* STATUS BOXES: cream background, dark text */
 [data-testid="stStatus"],
 [data-testid="stStatus"] > div,
 [data-testid="stStatusBody"],
@@ -74,17 +74,12 @@ html, body { background-color: #faf3e0 !important; color: #1c1410 !important; }
 }
 [data-testid="stStatus"] * { color: #1c1410 !important; }
 [data-testid="stVerticalBlockBorderWrapper"] * { color: #1c1410 !important; }
-
-/* Status header row keep its own styled bg */
 [data-testid="stStatus"] > div:first-child { background-color: #f0e8d0 !important; }
-
-/* FIX garbage beck/arror text: the status widget icon span uses a material icon ligature
-   that renders as garbage text when our custom fonts are applied. Reset font to system. */
 [data-testid="stStatus"] > div:first-child span { font-family: sans-serif !important; }
 [data-testid="stStatus"] > div:first-child button { font-family: sans-serif !important; }
 [data-testid="stStatus"] > div:first-child > div:first-child > span:first-child { display: none !important; }
 
-/* ── INVESTIGATE BUTTON — explicit visible styling ── */
+/* ── INVESTIGATE BUTTON ── */
 .stButton > button {
     background-color: #1c1410 !important;
     color: #f0e8d0 !important;
@@ -101,9 +96,7 @@ html, body { background-color: #faf3e0 !important; color: #1c1410 !important; }
 }
 .stButton > button p,
 .stButton > button span,
-.stButton > button div {
-    color: #f0e8d0 !important;
-}
+.stButton > button div { color: #f0e8d0 !important; }
 .stButton > button:hover {
     background-color: #a0420e !important;
     color: #f0e8d0 !important;
@@ -113,7 +106,6 @@ html, body { background-color: #faf3e0 !important; color: #1c1410 !important; }
 .stButton > button:hover p,
 .stButton > button:hover span,
 .stButton > button:hover div { color: #f0e8d0 !important; }
-/* Primary button (Investigate) same treatment */
 .stButton > button[kind="primary"],
 [data-testid="baseButton-primary"] {
     background-color: #1c1410 !important;
@@ -153,7 +145,6 @@ h3 { font-family:'IM Fell English',serif !important; color:#3a1a00 !important; }
 [data-testid="stExpander"] summary { font-family:'IM Fell English',serif !important; color:#a0420e !important; font-style:italic !important; }
 [data-testid="stExpander"] summary span { font-family:'IM Fell English',serif !important; color:#a0420e !important; font-style:italic !important; }
 [data-testid="stExpander"] * { color: #1c1410 !important; }
-/* FIX arro/arrow garbage in expander: icon span uses material icon ligature, reset to system font and hide */
 [data-testid="stExpander"] summary svg,
 [data-testid="stExpander"] summary > div > span:first-child,
 [data-testid="stExpander"] summary > span:first-child { font-family: sans-serif !important; }
@@ -168,7 +159,7 @@ h3 { font-family:'IM Fell English',serif !important; color:#3a1a00 !important; }
 [data-testid="stDownloadButton"] > button { background:#f0e8d0 !important; color:#1c1410 !important; border:1px solid #c4a96b !important; border-radius:2px !important; font-family:'Courier Prime',monospace !important; }
 [data-testid="stDownloadButton"] > button:hover { background:#1c1410 !important; color:#f0e8d0 !important; }
 
-/* ── HIDE sidebar collapse button / back-arrow / chevron garbage ── */
+/* ── HIDE sidebar collapse button ── */
 [data-testid="collapsedControl"] { display: none !important; }
 [data-testid="stSidebarCollapseButton"] { display: none !important; visibility: hidden !important; }
 [data-testid="stSidebarCollapseButton"] > div,
@@ -179,15 +170,19 @@ button[aria-label="Open sidebar"],
 button[aria-label="Collapse sidebar"] { display: none !important; }
 .st-emotion-cache-1egp75f, .st-emotion-cache-czk5ss { display: none !important; }
 
-/* ── SIDEBAR (intentionally dark — newspaper back page) ── */
-section[data-testid="stSidebar"] {
-    background: #1c1410 !important;
+/* ── SIDEBAR — robust dark background ── */
+section[data-testid="stSidebar"],
+section[data-testid="stSidebar"] > div,
+section[data-testid="stSidebar"] > div > div,
+section[data-testid="stSidebar"] > div > div > div {
+    background-color: #1c1410 !important;
     background-image:
         radial-gradient(circle at 20% 80%, rgba(139,58,26,0.18) 0%, transparent 60%),
         radial-gradient(circle at 80% 20%, rgba(184,134,11,0.12) 0%, transparent 55%) !important;
+}
+section[data-testid="stSidebar"] {
     border-right: 3px double #c4a96b !important;
 }
-/* Sidebar text: light on dark intentionally */
 section[data-testid="stSidebar"] p,
 section[data-testid="stSidebar"] span,
 section[data-testid="stSidebar"] div,
@@ -256,10 +251,10 @@ with st.sidebar:
 <hr style="border-color:#c4a96b;opacity:0.25;margin:1rem 0;">
 <div style="font-family:'IM Fell English',serif;font-size:1.05rem;color:#c4a96b;font-style:italic;margin-bottom:0.6rem;">◆ Equipment Used</div>
 <div style="font-family:'Courier Prime',monospace;font-size:0.78rem;line-height:2.0;color:#e0d0b8;">
-▸ LLM &nbsp;&nbsp;&nbsp;&nbsp;· Gemini 1.5 Flash<br>
+▸ LLM &nbsp;&nbsp;&nbsp;&nbsp;· Gemini 2.0 Flash<br>
 ▸ Search &nbsp;· Tavily API<br>
 ▸ UI &nbsp;&nbsp;&nbsp;&nbsp;· Streamlit<br>
-▸ Deploy &nbsp;· Railway
+▸ Deploy &nbsp;· Streamlit Cloud
 </div>
 <hr style="border-color:#c4a96b;opacity:0.25;margin:1rem 0;">
 <div style="font-family:'Courier Prime',monospace;font-size:0.68rem;color:#a09080;text-align:center;line-height:1.8;">
@@ -278,7 +273,7 @@ st.markdown(f"""
     <div class="masthead-title">The Curator</div>
     <div style="border-top:2px solid #1c1410;opacity:0.5;margin:0.4rem 0;"></div>
     <div class="masthead-subtitle">Intelligence Dispatches &nbsp;·&nbsp; Multi-Agent Research &amp; Composition Bureau</div>
-    <div class="masthead-price">🔍 &nbsp; Powered by Tavily Search &amp; Gemini 1.5 Flash &nbsp;·&nbsp; Price: One Good Query</div>
+    <div class="masthead-price">🔍 &nbsp; Powered by Tavily Search &amp; Gemini 2.0 Flash &nbsp;·&nbsp; Price: One Good Query</div>
 </div>
 """, unsafe_allow_html=True)
 
@@ -370,7 +365,6 @@ if generate and topic.strip():
 </div>
 """, unsafe_allow_html=True)
 
-        newsletter_body_html = newsletter["body"].replace('\n', '<br>')
         st.markdown(f'<div class="newsletter-body-wrap">{newsletter["body"]}</div>', unsafe_allow_html=True)
 
         st.markdown("<div style='height:0.7rem'></div>", unsafe_allow_html=True)
@@ -478,6 +472,6 @@ st.markdown("""
 <div style="text-align:center;font-family:'Courier Prime',monospace;font-size:0.7rem;
      color:#8b7355;letter-spacing:0.08em;padding-bottom:1rem;">
     ✦ &nbsp; The Curator Intelligence Bureau &nbsp;·&nbsp; Semester IV · B.E. ECE &nbsp;·&nbsp;
-    Streamlit &nbsp;·&nbsp; Tavily &nbsp;·&nbsp; Gemini 1.5 Flash &nbsp; ✦
+    Streamlit &nbsp;·&nbsp; Tavily &nbsp;·&nbsp; Gemini 2.0 Flash &nbsp; ✦
 </div>
 """, unsafe_allow_html=True)
