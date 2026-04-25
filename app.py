@@ -256,7 +256,7 @@ with st.sidebar:
 <hr style="border-color:#c4a96b;opacity:0.25;margin:1rem 0;">
 <div style="font-family:'IM Fell English',serif;font-size:1.05rem;color:#c4a96b;font-style:italic;margin-bottom:0.6rem;">◆ Equipment Used</div>
 <div style="font-family:'Courier Prime',monospace;font-size:0.78rem;line-height:2.0;color:#e0d0b8;">
-▸ LLM &nbsp;&nbsp;&nbsp;&nbsp;· Gemini 2.5 Flash<br>
+▸ LLM &nbsp;&nbsp;&nbsp;&nbsp;· Gemini 1.5 Flash<br>
 ▸ Search &nbsp;· Tavily API<br>
 ▸ UI &nbsp;&nbsp;&nbsp;&nbsp;· Streamlit<br>
 ▸ Deploy &nbsp;· Railway
@@ -278,7 +278,7 @@ st.markdown(f"""
     <div class="masthead-title">The Curator</div>
     <div style="border-top:2px solid #1c1410;opacity:0.5;margin:0.4rem 0;"></div>
     <div class="masthead-subtitle">Intelligence Dispatches &nbsp;·&nbsp; Multi-Agent Research &amp; Composition Bureau</div>
-    <div class="masthead-price">🔍 &nbsp; Powered by Tavily Search &amp; Gemini 2.5 Flash &nbsp;·&nbsp; Price: One Good Query</div>
+    <div class="masthead-price">🔍 &nbsp; Powered by Tavily Search &amp; Gemini 1.5 Flash &nbsp;·&nbsp; Price: One Good Query</div>
 </div>
 """, unsafe_allow_html=True)
 
