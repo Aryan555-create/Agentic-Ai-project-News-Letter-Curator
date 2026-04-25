@@ -92,14 +92,17 @@ html, body { background-color: var(--paper) !important; color: var(--ink) !impor
 [data-testid="stStatus"] > div,
 [data-testid="stStatus"] > div > div,
 [data-testid="stStatusBody"],
-[data-testid="stVerticalBlockBorderWrapper"],
-[data-testid="stVerticalBlockBorderWrapper"] > div {
+.main [data-testid="stVerticalBlockBorderWrapper"],
+.main [data-testid="stVerticalBlockBorderWrapper"] > div,
+[data-testid="stMain"] [data-testid="stVerticalBlockBorderWrapper"],
+[data-testid="stMain"] [data-testid="stVerticalBlockBorderWrapper"] > div {
     background-color: var(--paper-soft) !important;
     color: var(--ink) !important;
     border-color: var(--gold) !important;
 }
 [data-testid="stStatus"] * { color: var(--ink) !important; }
-[data-testid="stVerticalBlockBorderWrapper"] * { color: var(--ink) !important; }
+.main [data-testid="stVerticalBlockBorderWrapper"] * { color: var(--ink) !important; }
+[data-testid="stMain"] [data-testid="stVerticalBlockBorderWrapper"] * { color: var(--ink) !important; }
 
 /* Status header row keep its own styled bg */
 [data-testid="stStatus"] > div:first-child { background-color: var(--paper-accent) !important; }
@@ -230,15 +233,34 @@ section[data-testid="stSidebar"] {
 section[data-testid="stSidebar"] > div {
     background: transparent !important;
 }
+section[data-testid="stSidebar"] [data-testid="stSidebarUserContent"],
+section[data-testid="stSidebar"] [data-testid="stVerticalBlock"],
+section[data-testid="stSidebar"] [data-testid="stVerticalBlockBorderWrapper"],
+section[data-testid="stSidebar"] [data-testid="stVerticalBlockBorderWrapper"] > div,
+section[data-testid="stSidebar"] [data-testid="element-container"] {
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    opacity: 1 !important;
+}
 /* Sidebar text: light on dark intentionally */
 section[data-testid="stSidebar"] p,
 section[data-testid="stSidebar"] span,
 section[data-testid="stSidebar"] div,
-section[data-testid="stSidebar"] label { color: var(--sidebar-ink) !important; font-family:'Courier Prime',monospace !important; opacity: 1 !important; }
+section[data-testid="stSidebar"] label {
+    color: var(--sidebar-ink) !important;
+    font-family:'Courier Prime',monospace !important;
+    opacity: 1 !important;
+}
 section[data-testid="stSidebar"] strong { color: var(--gold) !important; }
 section[data-testid="stSidebar"] small { color: var(--sidebar-soft) !important; }
 section[data-testid="stSidebar"] hr { border-color: var(--gold) !important; opacity:0.35 !important; }
 section[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] * { color: inherit !important; }
+section[data-testid="stSidebar"] [data-testid="stMarkdownContainer"],
+section[data-testid="stSidebar"] [data-testid="stText"],
+section[data-testid="stSidebar"] [data-testid="stCaptionContainer"] {
+    opacity: 1 !important;
+}
 section[data-testid="stSidebar"] [data-testid="stSlider"] label,
 section[data-testid="stSidebar"] [data-testid="stSlider"] span,
 section[data-testid="stSidebar"] [data-testid="stSlider"] p {
